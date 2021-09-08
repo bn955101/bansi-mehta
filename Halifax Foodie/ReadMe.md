@@ -15,6 +15,7 @@ be generated.
 
 
 * Date Created: May, 2021
+* Technology: **React.js, Node.js, Express.js, AWS, GCP**
 
 
 ## Authors
