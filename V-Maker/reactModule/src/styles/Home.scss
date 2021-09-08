@@ -1,0 +1,21 @@
+.upload-container {
+    display: flex;
+    height: calc(100% - 5rem);
+    .upload-image-container {
+        display: inline-block;
+        width: 50%;
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .upload-image-content {
+        display: flex;
+        height: 100%;
+    }
+
+    .upload-audio-container {
+        display: inline-block;
+        width: 50%;
+        height: 100%;
+    }
+}

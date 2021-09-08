@@ -1,0 +1,5 @@
+filterKeyWords = ["covid", "emergency", "flu", "snow", "vaccine", "immune"]
+countWords = ["flu", "snow", "emergency"]
+columnNames = ["createdAt", "userName", "userLocation", "text"]
+columnsToBeCleaned = [1, 2, 3]
+columnsUsedInCounting = [3]
