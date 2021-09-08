@@ -1,0 +1,19 @@
+.add-client-container {
+    .generate-button-container {
+        float: right;
+    }
+    
+    .data-table-container {
+        margin-top: 0.5rem;
+    }
+    
+    .region {
+        display: inline-block;
+        
+    }
+
+    .country {
+        display: inline-block;
+        padding-right: 0.5rem;
+    }
+}
