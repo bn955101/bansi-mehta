@@ -4,6 +4,7 @@ As more opportunities shift towards work from home, there is an increase in numb
 
 * Date Created: 24 05 2021
 * Last Modification Date: 21 07 2021
+* Technology: **React.js, Node.js, Express.js, MongoDB**
 * URL: https://csci5709-group5-s21.herokuapp.com/
 
 Login Credentails:
