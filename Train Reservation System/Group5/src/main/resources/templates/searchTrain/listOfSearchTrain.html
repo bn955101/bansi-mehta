@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Home</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div class="col-md-12 row">
+					<div style="text-align: start" class="col-md-4">
+						<input action="action" type="button" onclick="history.go(-1);"
+							value="Back" />
+					</div>
+					<div style="text-align: center;" class="col-md-4">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-4">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div th:if="${noTrain}" style="text-align: center; width: 100%">
+						<h3>There is no train on that day.</h3>
+					</div>
+					<div class="border border-secondary p-3 rounded"
+						style="width: 930px">
+						<div class="row col-md-12" style="margin-top: 50px">
+							<table border="1" cellpadding="10" style="width: 100%">
+								<thead>
+									<tr>
+										<th>Train Code</th>
+										<th>Train Name</th>
+										<th>Train Type</th>
+										<th>Source Station</th>
+										<th>Destination Station</th>
+										<th>Pick UP Date And Time</th>
+										<th>Drop Date And Time</th>
+										<th>Fare</th>
+										<th>Available Seats</th>
+										<th>Option</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="train : ${listOfTrain}">
+										<td th:text="${train.trainCode}">Train Code</td>
+										<td th:text="${train.trainName}">Train Name</td>
+										<td th:text="${train.trainType}">Train Type</td>
+										<td th:text="${sourceStation.stationName}">Source Station</td>
+										<td th:text="${destinationStation.stationName}">Destination
+											Station</td>
+										<td><p
+												th:text="${#dates.format(train.pickUPDate, 'dd-MM-yyyy')}">
+												PickUp Date</p>
+											<p th:text="${train.pickUPTime}">PickUp Time</p></td>
+										<td>
+											<p th:text="${#dates.format(train.dropUpDate, 'dd-MM-yyyy')}">
+												DropUp Date</p>
+											<p th:text="${train.dropTime}">Drop Time</p>
+										</td>
+										<td th:text="${train.fare}">Fair</td>
+										<td th:text="${train.availableSeat}">Available Seats</td>
+										<td>
+											<form th:action="@{/user/bookNow}"
+												th:object="${reservationInformation}" method="post">
+												<input type="hidden" name="trainId"
+													th:value="${train.trainId}"> <input type="hidden"
+													name="sourceStationId"
+													th:value="${sourceStation.stationId}"> <input
+													type="hidden" name="destinationStationId"
+													th:value="${destinationStation.stationId}"> <input
+													type="hidden" name="distance"
+													th:value="${train.totalDistance}"> <input
+													type="hidden" name="trainType"
+													th:value="${train.trainType}"> <input type="hidden"
+													name="startDate" th:value="${train.startDate}">
+												<button type="submit">Book Now</button>
+											</form>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

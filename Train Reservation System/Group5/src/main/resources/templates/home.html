@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Home</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<div style="text-align: start" class="col-md-6">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-6">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-6">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/admin/station/list}" method="get">
+									<input type="submit" value="Station Setup" />
+								</form>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/admin/route/list}" method="get">
+									<input type="submit" value="Route Setup" />
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-6">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/admin/train/list}" method="get">
+									<input type="submit" value="Train Setup" />
+								</form>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/admin/cancelTrain}" method="get">
+									<input type="submit" value="Cancel Train" />
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

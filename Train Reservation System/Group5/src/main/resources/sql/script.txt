@@ -1,0 +1,89 @@
+/*
+* SQL table creations and procedures
+*
+*/
+
+// Using the database
+
+use `CSCI5308_5_DEVINT`;
+
+
+// Creating addTrain Procedure
+
+DELIMITER $$
+CREATE DEFINER=`CSCI5308_5_DEVINT_USER`@`%` PROCEDURE `addTrain`(in trainCodeS int(11), in trainNameS varchar(255), in trainTypeS varchar(255),in daysS varchar(255),in departureTimeS varchar(255), in totalCoachesS varchar(255), in startStationS int(11), in middleStationsS varchar(255), in endStationS int(11))
+BEGIN
+INSERT 
+INTO `CSCI5308_5_DEVINT`.`train` ( trainCode, trainName, trainType, days, departureTime, totalCoaches, startStation, middleStations, endStation) 
+VALUES (trainCodeS, trainNameS, trainTypeS, daysS, departureTimeS, totalCoachesS , startStationS, middleStationsS, endStationS);
+END$$
+DELIMITER ;
+
+
+// Creating deleteTrain Procedure
+
+DELIMITER $$
+CREATE DEFINER=`CSCI5308_5_DEVINT_USER`@`%` PROCEDURE `deleteTrain`(in trainIdS int)
+BEGIN
+DELETE 
+FROM train
+WHERE  trainId = trainIdS;
+END$$
+DELIMITER ;
+
+
+// Creating editTrain Procedure
+
+DELIMITER $$
+CREATE DEFINER=`CSCI5308_5_DEVINT_USER`@`%` PROCEDURE `editTrain`( in trainIdS int, in trainCodeS int(11), in trainNameS varchar(255), in trainTypeS varchar(255),in daysS varchar(255),in departureTimeS varchar(255), in totalCoachesS varchar(255), in startStationS int(11), in middleStationsS varchar(255), in endStationS int(11))
+BEGIN
+UPDATE train 
+SET  trainCode = trainCodeS, trainName = trainNameS, trainType = trainTypeS, days = daysS, departureTime = departureTimeS, totalCoaches = totalCoachesS, startStation = startStationS, middleStations = middleStationsS, endStation = endStationS 
+WHERE trainId = trainIdS;
+END$$
+DELIMITER ;
+
+
+// Creating getAllTrain Procedure
+
+DELIMITER $$
+CREATE DEFINER=`CSCI5308_5_DEVINT_USER`@`%` PROCEDURE `getAllTrain`()
+BEGIN
+SELECT t.trainId, t.trainCode, t.trainName, t.trainType, t.days, t.departureTime, 
+t.totalCoaches, s.stationName, t.middleStations, (select st.stationName from station as st where st.sid = t.endStation)
+FROM  train as t, station as s where t.startStation = s.sid ;
+END$$
+DELIMITER ;
+
+
+// Creating getTrain Procedure
+
+DELIMITER $$
+CREATE DEFINER=`CSCI5308_5_DEVINT_USER`@`%` PROCEDURE `getTrain`(in trainIdS int)
+BEGIN
+SELECT * 
+FROM  train WHERE trainId = trainIdS;
+END$$
+DELIMITER ;
+
+
+// Creating Train Table 
+
+DROP TABLE IF EXISTS `CSCI5308_5_DEVINT`.`train`;
+
+CREATE TABLE `CSCI5308_5_DEVINT`.`train` (
+  `trainId` int(11) NOT NULL AUTO_INCREMENT,
+  `trainCode` int(11) NOT NULL,
+  `trainName` varchar(255) NOT NULL,
+  `trainType` varchar(255) NOT NULL,
+  `days` varchar(255) NOT NULL,
+  `departureTime` varchar(255) NOT NULL,
+  `totalCoaches` int(11),
+  `startStation` int(11) NOT NULL,
+  `middleStations` varchar(255) NOT NULL,
+  `endStation` int(11) NOT NULL,
+  `created_date` timestamp,
+  PRIMARY KEY (`trainId`),
+  FOREIGN KEY (`startStation`) REFERENCES `CSCI5308_5_DEVINT`.`station`(`sid`),
+  FOREIGN KEY (`endStation`) REFERENCES `CSCI5308_5_DEVINT`.`station`(`sid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

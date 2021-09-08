@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<title>Train</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1320px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<form th:action="@{/admin/home}" method="get">
+						<input type="submit" value="Back" />
+					</form>
+					<div style="text-align: center;" class="col-md-4">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-4">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded"
+								style="text-align: end">
+								<form th:action="@{/admin/train/add}" method="get">
+									<input type="submit" value="Add Train" />
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="row col-md-12">
+						<div class="col-md-12">
+							<h3>------List of Trains------</h3>
+							<div class="border border-secondary p-3 rounded">
+								<p style="color: red;" th:if="${trainRouteError}" class="error">Data
+									could not entered/updated. Please check available route and
+									enter the data again.</p>
+								<table border="1" cellpadding="10" style="width: 100%">
+									<thead>
+										<tr>
+											<th>Train Code</th>
+											<th>Train Name</th>
+											<th>Train Type</th>
+											<th>Day</th>
+											<th>Departure Time</th>
+											<th>Total Coaches</th>
+											<th>Starting Station</th>
+											<th>Middle Stations</th>
+											<th>Ending Station</th>
+											<th sec:authorize="hasAnyAuthority('ADMIN')">UPDATE</th>
+											<th sec:authorize="hasAnyAuthority('ADMIN')">DELETE</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="train : ${listOfTrain}">
+											<td th:text="${train.trainCode}">Train Code</td>
+											<td th:text="${train.trainName}">Train Name</td>
+											<td th:text="${train.trainType}">Train Type</td>
+											<td th:text="${train.days}">Day</td>
+											<td th:text="${train.departureTime}">Departure Time</td>
+											<td th:text="${train.totalCoaches}">Total Coaches</td>
+											<td th:text="${train.startStation}">Starting Station</td>
+											<td th:text="${train.middleStations}">Middle Stations</td>
+											<td th:text="${train.endStation}">Ending Station</td>
+											<td sec:authorize="hasAnyAuthority('ADMIN')">
+												<div sec:authorize="hasAnyAuthority('ADMIN')">
+													<a th:href="@{'/admin/train/edit/' + ${train.trainId}}">Edit</a>
+												</div>
+											</td>
+											<td sec:authorize="hasAnyAuthority('ADMIN')">
+												<div sec:authorize="hasAnyAuthority('ADMIN')">
+													<a th:href="@{'/admin/train/delete/' + ${train.trainId}}"
+														onclick="if (!(confirm('Are you sure you want to delete this train?'))) return false">Delete</a>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

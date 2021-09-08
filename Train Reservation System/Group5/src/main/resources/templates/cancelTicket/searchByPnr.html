@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Train reservation system</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+	<form action="#" th:action="@{/ticket/cancellation}"
+		th:object="${cancelTicket}" method="post">
+		<div class="border border-secondary p-3 rounded">
+			<div class="form-group">
+				<div class="row col-md-12">
+					<div class="col-md-3">
+						<label for="pnrNumber">PNR Number:</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="pnrNumber" class="form-control"
+							placeholder="Enter PNR Number">
+					</div>
+				</div>
+			</div>
+			<div class="form-group" style="text-align: center;">
+				<button type="submit" class="btn btn-info col-4">Search</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

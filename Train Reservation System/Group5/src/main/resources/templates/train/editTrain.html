@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Edit Train</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<div style="text-align: start" class="col-md-4">
+						<input action="action" type="button" onclick="history.go(-1);"
+							value="Back" />
+					</div>
+					<div style="text-align: center;" class="col-md-4">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-4">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<h1>Edit Train</h1>
+								<br />
+								<p style="color: red;" th:if="${trainRouteError}" class="error">Data
+									could not entered/updated. Please check available route and
+									enter the data again.</p>
+								<form action="#" th:action="@{/admin/train/save}"
+									th:object="${train}" method="post">
+									<table border="0" cellpadding="10" style="width: 100%">
+										<tr>
+											<td>Train ID:</td>
+											<td><input type="number" th:field="*{trainId}"
+												readonly="readonly" style="width: 70%" /></td>
+										</tr>
+										<tr>
+											<td>Train Code:</td>
+											<td><input type="number" style="width: 70%"
+												th:field="*{trainCode}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${trainCodeError}">Enter valid Train Code</p></td>
+										</tr>
+										<tr>
+											<td>Train Name:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{trainName}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${trainNameError}">Enter Valid Train Name</p></td>
+										</tr>
+										<tr>
+											<td>Train Type:</td>
+											<td><select name="trainType" style="width: 70%"
+												th:field="*{trainType}">
+													<option value="AC Sleeper" selected>AC Sleeper</option>
+													<option value="AC Seater">AC Seater</option>
+													<option value="Non AC Sleeper">Non AC Sleeper</option>
+													<option value="Non AC Seater">Non AC Seater</option>
+											</select></td>
+										</tr>
+									</table>
+									<div style="width: 100%">
+										<p id="days" />
+									</div>
+									<table border="0" cellpadding="10" style="width: 100%">
+										<tr>
+											<td>Departure Time:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{departureTime}"
+												placeholder="Enter Departure Time">
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${departureTimeError}">Enter valid departure
+													time</p></td>
+										</tr>
+										<tr>
+											<td>Total Coaches:</td>
+											<td><input type="number" style="width: 70%"
+												th:field="*{totalCoaches}" placeholder="Enter Total Coaches" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${coachesError}">Enter valid coach</p></td>
+										</tr>
+										<tr>
+											<td>Starting Station:</td>
+											<td><select name="startStation"
+												th:field="*{startStation}" style="width: 70%">
+													<option th:each="station : ${listOfStations}"
+														th:value="${station.stationId}"
+														th:text="${station.stationName}"></option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${startStationError}">Enter valid start station</p></td>
+										</tr>
+										<tr>
+											<td>Add Middle Stations by clicking here:</td>
+											<td><button type="button" id="buttonMid">Add
+													Middle Station</button></td>
+										</tr>
+									</table>
+									<div>
+										<p id="checkMid" />
+									</div>
+									<div style="width: 100%">
+										<p id="mid" />
+									</div>
+									<table border="0" cellpadding="10" style="width: 100%">
+										<tr>
+											<td>Ending Station:</td>
+											<td><select name="endStation" th:field="*{endStation}"
+												style="width: 70%">
+													<option th:each="station : ${listOfStations}"
+														th:value="${station.stationId}"
+														th:text="${station.stationName}"></option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${endStationError}">Enter valid destination
+													station</p></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2"><button type="submit">Edit
+													Train</button></td>
+										</tr>
+									</table>
+								</form>
+								<script th:inline="javascript">
+								     $(document).ready(function(){
+								       $("#buttonMid").on("click", function(){
+								    	   var listOfStations = /*[[${listOfStations}]]*/ {}; 
+								    	   var html = '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
+								    	  console.log(listOfStations);
+								    	  for (var i = 0; i < listOfStations.length; i++) { 
+								    		  html += '<option th:value="' + listOfStations[i].stationId+'">'
+							                    + listOfStations[i].stationName + '</option>';
+								    	   }
+								    	   html+='</select><br>';
+								         $("#mid").append(html);
+								       });
+								     });
+							    </script>
+								<script th:inline="javascript">
+								    $( window ).load(function() {
+								    	var listOfMiddleStations = /*[[${listOfMiddleStations}]]*/;
+								    	var listOfStations = /*[[${listOfStations}]]*/ {}; 
+								    	var html = '';
+								    	if(listOfMiddleStations.length>0){
+								    		for (var j = 0; j < listOfMiddleStations.length; j++) {
+									    		html+= '<label>Middle Station:</label><select name="middleStations" th:field="*{middleStations}" style="width: 70%">';
+									    		for (var i = 0; i < listOfStations.length; i++) { 
+									    			if(listOfStations[i].stationId == listOfMiddleStations[j]){
+									    				html += '<option value="' + listOfStations[i].stationId+'" selected>'
+									                    + listOfStations[i].stationName + '</option>';
+									    			}
+									    			else{
+									    				html += '<option value="' + listOfStations[i].stationId+'">'
+									                    + listOfStations[i].stationName + '</option>';
+									    			}
+										    	}
+									    		html+='</select><br>';
+								    		}
+									        $("#checkMid").append(html);
+								    	}
+								    });	 
+								</script>
+								<script th:inline="javascript">
+									$( window ).load(function() {
+										var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+							    		var allDays = /*[[${listOfDays}]]*/; 
+							    		var html = '<label>Days :</label>';
+							    	  	days.forEach(function(entry) {
+										   if(allDays.hasOwnProperty(entry)){
+										 	  html += '<input type="checkbox" name="days" checked="checked" value="'+entry+'">'+entry;
+										   }
+										   else{
+										 	  html += '<input type="checkbox" name="days" value="'+entry+'">'+entry;
+										   }
+							    	  	});
+							         	$("#days").append(html);
+							       	});
+							    </script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

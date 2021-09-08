@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Cancel Train</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<div class="row col-md-12">
+						<div style="text-align: start" class="col-md-4">
+							<input action="action" type="button" onclick="history.go(-1);"
+								value="Back" />
+						</div>
+						<div style="text-align: center;" class="col-md-4">
+							Welcome <b><span sec:authentication="name">Username</span></b>
+							&nbsp;
+						</div>
+						<div style="text-align: end" class="col-md-4">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Logout" />
+							</form>
+						</div>
+					</div>
+					<div class="row col-md-12">
+						<div class="row col-md-12" style="margin-top: 50px; width: 100%">
+							<div class="border border-secondary p-3 rounded"
+								style="width: 100%">
+								<h1>Cancel Train</h1>
+								<br />
+								<form action="#" th:action="@{/admin/cancelTrain/success}"
+									th:object="${cancelTrain}" method="post">
+									<table>
+										<tr>
+											<td>Enter Train Code:</td>
+											<td><input type="text" style="width: 100%"
+												th:field="*{trainCode}" /></td>
+										</tr>
+										<tr>
+											<td>Enter Cancellation Date:</td>
+											<td><input type="date" style="width: 100%"
+												th:field="*{cancellationDate}" /></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2">
+												<button type="submit">Cancel Train</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

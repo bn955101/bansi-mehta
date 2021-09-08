@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Home</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div class="col-md-12 row">
+					<div style="text-align: start" class="col-md-6">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-6">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<h3>Search Train</h3>
+							</div>
+						</div>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<form th:action="@{/user/home}" th:object="${searchTrain}"
+									method="post">
+									<table border="0" cellpadding="10" style="width: 100%">
+										<p class="alert alert-danger" style="width: 70%"
+											th:if="${stationError}">Source Station and Destination
+											Station cannot be same</p>
+										<tr>
+											<td>Starting Station:</td>
+											<td><select name="startStation"
+												th:field="*{sourceStation}" style="width: 70%">
+													<option th:each="sstation : ${listOfSourceStations}"
+														th:value="${sstation.stationId}"
+														th:text="${sstation.stationName}"></option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('sourceStation')}"
+													th:errors="*{startStation}" /></td>
+										</tr>
+										<tr>
+											<td>Destination Station:</td>
+											<td><select name="startStation"
+												th:field="*{destinationStation}" style="width: 70%">
+													<option th:each="dstation : ${listOfDestinationStations}"
+														th:value="${dstation.stationId}"
+														th:text="${dstation.stationName}"></option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('destinationStation')}"
+													th:errors="*{startStation}" /></td>
+										</tr>
+										<tr>
+											<td>Date of Journey</td>
+											<td><input type="date" id="datepicker"
+												th:field="*{dateOfJourny}" />
+
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${dateError}">Choose future Date</p>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${dateExceedOneMOnth}">Select date that is in
+													range of one month from today</p></td>
+										</tr>
+										<tr>
+											<td>Train Type:</td>
+											<td><select name="trainType" style="width: 70%"
+												th:field="*{trainType}">
+													<option value="AC Sleeper" selected>AC Sleeper</option>
+													<option value="AC Seater">AC Seater</option>
+													<option value="Non AC Sleeper">Non AC Sleeper</option>
+													<option value="Non AC Seater">Non AC Seater</option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${#fields.hasErrors('trainType')}"
+													th:errors="*{trainType}" /></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2"><button type="submit">Search</button></td>
+										</tr>
+									</table>
+								</form>
+								<form th:action="@{/ticket/cancel}" method="POST"
+									style="max-width: 350px; margin: 0 auto;">
+									<div class="border border-secondary p-3 rounded">
+										<div class="form-group " style="text-align: center;">
+											<button type="submit" class="btn btn-info col-4">Cancel
+												Ticket</button>
+										</div>
+									</div>
+								</form>
+								<form th:action="@{/findMyTrain}" method="POST"
+									style="max-width: 350px; margin: 0 auto;">
+									<div class="border border-secondary p-3 rounded">
+										<div class="form-group " style="text-align: center;">
+											<button type="submit" class="btn btn-info col-4">Find
+												my train</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			$("#datepicker").datepicker({
+				startDate : '+0d'
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Passenger Information</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div class="col-md-12 row">
+					<div class="col-md-12 row">
+						<div style="text-align: start" class="col-md-4">
+							<input action="action" type="button" onclick="history.go(-1);"
+								value="Back" />
+						</div>
+						<div style="text-align: start" class="col-md-4">
+							Welcome <b><span sec:authentication="name">Username</span></b>
+						</div>
+						<div style="text-align: end" class="col-md-4">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Logout" />
+							</form>
+						</div>
+					</div>
+					<div class="col-md-12 row">
+						<div class="row col-md-12" style="margin-top: 50px">
+							<div class="col-md-12">
+								<div class="border border-secondary p-3 rounded"
+									style="width: 930px">
+									<h3>Enter Passenger Information</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form th:action="@{/user/payNow}"
+					th:object="${reservationInformation}" method="post">
+					<div class="col-md-12 row">
+						<div class="col-md-12 row border border-secondary p-3 rounded"
+							style="width: 930px">
+							<h6>In case train cancels:</h6>
+						</div>
+						<div class="col-md-12 row border border-secondary p-3 rounded"
+							style="width: 930px">
+							<select th:field="*{trainCancelEvent}">
+								<option value="Cancel Ticket" selected>Cancel Ticket</option>
+								<option value="Reschedule on week-days">Reschedule on
+									week-days</option>
+								<option value="Reschedule on week-ends">Reschedule on
+									week-ends</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12 row">
+						<div class="border border-secondary p-3 rounded"
+							style="width: 930px">
+							<div class="row col-md-12" style="margin-top: 50px">
+								<input type="hidden" name="trainId"
+									th:value="${reservationInformation.trainId}"> <input
+									type="hidden" name="sourceStationId"
+									th:value="${reservationInformation.sourceStationId}"> <input
+									type="hidden" name="destinationStationId"
+									th:value="${reservationInformation.destinationStationId}">
+								<input type="hidden" name="distance"
+									th:value="${reservationInformation.distance}"> <input
+									type="hidden" name="trainType"
+									th:value="${reservationInformation.trainType}">
+								<table border="1" cellpadding="10" style="width: 100%">
+									<thead>
+										<tr>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Gender</th>
+											<th>Age</th>
+											<th>Berth Preference</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											th:each="passenger, stat : ${reservationInformation.passengerInformation}">
+											<td><input type="text"
+												th:field="*{passengerInformation[__${stat.index}__].firstName}" />
+											</td>
+											<td><input type="text"
+												th:field="*{passengerInformation[__${stat.index}__].lastName}" />
+											</td>
+											<td><select
+												th:field="*{passengerInformation[__${stat.index}__].gender}">
+													<option value="Male" selected>Male</option>
+													<option value="Female">Female</option>
+													<option value="Other">Other</option>
+											</select></td>
+											<td><input type="number"
+												th:field="*{passengerInformation[__${stat.index}__].age}" />
+											</td>
+											<td><select
+												th:field="*{passengerInformation[__${stat.index}__].berthPreference}">
+													<option value="No Preference" selected>No
+														Preference</option>
+													<option value="Lower Berth" selected>Lower Berth</option>
+													<option value="Upper Berth">Upper Berth</option>
+											</select></td>
+										</tr>
+									</tbody>
+								</table>
+								<button type="submit">Book Tickets</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

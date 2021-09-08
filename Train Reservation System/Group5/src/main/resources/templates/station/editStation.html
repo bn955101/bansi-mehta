@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Edit Station</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<div style="text-align: start" class="col-md-4">
+						<form th:action="@{/admin/station/list}" method="get">
+							<input type="submit" value="Back" />
+						</form>
+					</div>
+					<div style="text-align: center;" class="col-md-4">
+						Welcome <b><span sec:authentication="name">Username</span></b>
+						&nbsp;
+					</div>
+					<div style="text-align: end" class="col-md-4">
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" value="Logout" />
+						</form>
+					</div>
+					<div class="row col-md-12" style="margin-top: 50px">
+						<div class="col-md-12">
+							<div class="border border-secondary p-3 rounded">
+								<h1>Edit Station</h1>
+								<br />
+								<form action="#" th:action="@{/admin/station/edit/save}"
+									th:object="${station}" method="post">
+									<p class="alert alert-danger" style="width: 70%"
+										th:if="${errorUnique}">Station Name Or Station Code is
+										already Present Try with other values</p>
+									<table border="0" cellpadding="10" style="width: 100%">
+										<tr>
+											<td>Station ID:</td>
+											<td><input type="text" th:field="*{stationId}"
+												readonly="readonly" style="width: 70%" /></td>
+										</tr>
+										<tr>
+											<td>Station Name:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{stationName}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${errorStationName}">Station name can't be empty
+													or Null</p></td>
+										</tr>
+										<tr>
+											<td>Station Code:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{stationCode}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${errorStationCode}">Station Code can't be empty
+													or Null</p></td>
+										</tr>
+										<tr>
+											<td>Station City:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{stationCity}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${errorStationCity}">Station City can't be empty
+													or Null</p></td>
+										</tr>
+										<tr>
+											<td>Station State:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{stationState}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${errorStationState}">Station State can't be
+													empty or Null</p></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2"><button type="submit">Edit
+													Station</button></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

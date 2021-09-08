@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<title>Edit Route</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div sec:authorize="isAuthenticated()" class="col-md-12 row">
+					<div class="row col-md-12">
+						<div style="text-align: start" class="col-md-4">
+							<form th:action="@{/admin/route/list}" method="get">
+								<input type="submit" value="Back" />
+							</form>
+						</div>
+						<div style="text-align: center;" class="col-md-4">
+							Welcome <b><span sec:authentication="name">Username</span></b>
+							&nbsp;
+						</div>
+						<div style="text-align: end" class="col-md-4">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Logout" />
+							</form>
+						</div>
+					</div>
+					<div class="row col-md-12">
+						<div class="row col-md-12" style="margin-top: 50px">
+							<div class="border border-secondary p-3 rounded"
+								style="width: 100%">
+								<h1>Edit Route</h1>
+								<br />
+								<form action="#" th:action="@{/admin/route/edit/save}"
+									th:object="${route}" method="post">
+									<table border="0" cellpadding="10" style="width: 100%">
+										<p class="alert alert-danger" style="width: 70%"
+											th:if="${sourceAndDestinationError}">Source station and
+											Destination station cannot be same.</p>
+										<tr>
+											<td>Route ID:</td>
+											<td><input type="text" th:field="*{routeId}"
+												readonly="readonly" style="width: 70%" /></td>
+										</tr>
+										<tr>
+											<td>Source:</td>
+											<td><select th:field="*{sourceId}">
+													<option th:each="station : ${listOfStations}"
+														th:value="${station.stationId}"
+														th:text="${station.stationName}"
+														th:selected="(${station.stationId} == *{source.stationId})">
+													</option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${sourceIdError}">Source station cannot be null</p></td>
+										</tr>
+										<tr>
+											<td>Destination:</td>
+											<td><select th:field="*{destinationId}">
+													<option th:each="station : ${listOfStations}"
+														th:value="${station.stationId}"
+														th:text="${station.stationName}"
+														th:selected="(${station.stationId} == *{destination.stationId})">
+													</option>
+											</select>
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${destinationIdError}">Destination station
+													cannot be null</p></td>
+										</tr>
+										<tr>
+											<td>Distance:</td>
+											<td><input type="text" style="width: 70%"
+												th:field="*{distance}" />
+												<p class="alert alert-danger" style="width: 70%"
+													th:if="${distanceError}">Distance cannot be less then
+													0.</p></td>
+										</tr>
+										<tr style="text-align: center;">
+											<td colspan="2">
+												<button type="submit">Edit Route</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

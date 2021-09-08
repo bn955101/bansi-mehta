@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<title>Display Train Location</title>
+</head>
+<body>
+	<div align="center">
+		<div style="max-width: 1000px; margin: 0 auto;">
+			<div class="border border-secondary p-3 rounded">
+				<div class="col-md-12 row">
+					<div class="col-md-12 row">
+						<div style="text-align: start" class="col-md-4">
+							<input action="action" type="button" onclick="history.go(-1);"
+								value="Back" />
+						</div>
+						<div style="text-align: start" class="col-md-4">
+							Welcome <b><span sec:authentication="name">Username</span></b>
+						</div>
+						<div style="text-align: end" class="col-md-4">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Logout" />
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 row">
+					<div class="border border-secondary p-3 rounded"
+						style="width: 930px">
+						<div class="row col-md-12" style="margin-top: 50px">
+							<form th:action="@{/findMyTrain/location/done}" method="post">
+								<p th:text="${trainLocation}"></p>
+								<button type="submit">Done</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

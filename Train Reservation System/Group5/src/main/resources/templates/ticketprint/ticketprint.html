@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport"
+         content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet"
+         href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+         crossorigin="anonymous">
+      <title>Ticket Print</title>
+   </head>
+   <body>
+      <div align="center">
+         <div style="max-width: 1000px; margin: 0 auto;">
+            <div class="border border-secondary p-3 rounded">
+               <div sec:authorize="isAuthenticated()" class="col-md-12 row">
+                  <div style="text-align: start" class="col-md-4">
+                     <form th:action="@{/user/home}" method="get">
+                        <input type="submit" value="Home" />
+                     </form>
+                  </div>
+                  <div style="text-align: center;" class="col-md-4">
+                     Welcome <b><span sec:authentication="name">Username</span></b>
+                     &nbsp;
+                    
+                  </div>
+                  <div style="text-align: end" class="col-md-4">
+                     <form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Logout" />
+                     </form>
+                  </div>
+                  <div class="row col-md-12" style="margin-top: 50px">
+                     <div class="col-md-12">
+                        <div class="border border-secondary p-3 rounded">
+                           
+                           <h1>Your Ticket has been booked. Download Ticket Here</h1>
+                           <br />
+                           <form action="#" th:action="@{/user/ticketprint/download}" method="post">
+                              <input type="hidden" name= "reservationId" class="form-control" th:value="${reservationId}">
+                              <button type="submit">Download</button>
+                           </form>
+                           <a th:href="@{'/user/ticketemail/' + ${reservationId}}">
+                           <button type="button">Email Your Ticket</button></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
