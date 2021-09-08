@@ -4,6 +4,7 @@ This	project was created with an aim to lean about concepts in modelling notatio
 
 
 * Date Created: January, 2021
+* Technology: Python
  
 ## Authors
 
